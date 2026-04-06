@@ -495,10 +495,13 @@
 
 .hand-cards {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
   padding: 4px;
   min-height: 120px;
   align-items: flex-end;
+  max-width: 100%;
 }
 
 .hand-card-wrapper {
@@ -506,6 +509,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   opacity: 0.5;
+  margin-bottom: 4px;
 }
 
 .hand-card-wrapper.playable {
@@ -513,12 +517,57 @@
 }
 
 .hand-card-wrapper.playable:hover {
-  transform: translateY(-15px);
+  transform: translateY(-10px);
   filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.4));
 }
 
 .hand-card-wrapper.hovered {
+  transform: translateY(-6px);
+}
+
+.hand-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hand-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hand-scroll::-webkit-scrollbar-thumb {
+  background: var(--accent-gold);
+  border-radius: 3px;
+}
+
+.hand-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px;
+  min-height: 120px;
+  align-items: flex-end;
+  max-width: 100%;
+}
+
+.hand-card-wrapper {
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
+.hand-card-wrapper.playable {
+  opacity: 1;
+}
+
+.hand-card-wrapper.playable:hover {
   transform: translateY(-10px);
+  filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.4));
+}
+
+.hand-card-wrapper.hovered {
+  transform: translateY(-6px);
 }
 
 .uno-btn {
@@ -660,5 +709,345 @@
   .penalty-fixed-btn {
     padding: 10px 20px;
     font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-header {
+    padding: 6px 10px;
+  }
+  
+  .round-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+  
+  .turn-display {
+    padding: 5px 12px;
+    gap: 6px;
+  }
+  
+  .turn-icon {
+    font-size: 14px;
+  }
+  
+  .turn-label {
+    font-size: 10px;
+  }
+  
+  .turn-name {
+    font-size: 12px;
+  }
+  
+  .direction-arrow {
+    font-size: 16px;
+  }
+  
+  .active-color {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .color-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .btn-leave {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .opponents-area {
+    padding: 6px 10px;
+  }
+  
+  .opponent-card {
+    min-width: 80px;
+    padding: 8px 10px;
+  }
+  
+  .opponent-avatar {
+    font-size: 22px;
+  }
+  
+  .opponent-name {
+    font-size: 11px;
+    max-width: 60px;
+  }
+  
+  .opponent-hand {
+    max-width: 70px;
+  }
+  
+  .mini-card {
+    width: 6px;
+    height: 9px;
+  }
+  
+  .card-count {
+    font-size: 9px;
+  }
+  
+  .now-playing-badge {
+    font-size: 8px;
+    padding: 2px 6px;
+  }
+  
+  .play-area {
+    gap: 16px;
+    padding: 8px;
+  }
+  
+  .card-back {
+    width: 50px;
+    height: 75px;
+  }
+  
+  .lightning-icon {
+    font-size: 18px;
+  }
+  
+  .card-back-text {
+    font-size: 8px;
+  }
+  
+  .draw-label {
+    font-size: 10px;
+  }
+  
+  .played-card {
+    width: 60px;
+    height: 90px;
+  }
+  
+  .card-corner {
+    font-size: 10px;
+  }
+  
+  .card-center {
+    font-size: 24px;
+  }
+  
+  .wild-lightning {
+    font-size: 12px;
+  }
+  
+  .hand-area {
+    padding: 6px 8px 12px;
+  }
+  
+  .turn-indicator {
+    font-size: 12px;
+    padding: 6px;
+    margin-bottom: 8px;
+  }
+  
+  .hand-cards {
+    gap: 3px;
+  }
+  
+  .hand-card-wrapper {
+    margin-bottom: 2px;
+  }
+  
+  .hand-card-wrapper.playable:hover {
+    transform: translateY(-6px);
+  }
+  
+  .hand-card-wrapper.hovered {
+    transform: translateY(-3px);
+  }
+  
+  .uno-btn {
+    right: 12px;
+    top: -16px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .penalty-fixed {
+    top: 100px;
+    right: 8px;
+  }
+  
+  .penalty-label {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  
+  .penalty-fixed-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-header {
+    padding: 6px 10px;
+  }
+  
+  .round-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+  
+  .turn-display {
+    padding: 5px 12px;
+    gap: 6px;
+  }
+  
+  .turn-icon {
+    font-size: 14px;
+  }
+  
+  .turn-label {
+    font-size: 10px;
+  }
+  
+  .turn-name {
+    font-size: 12px;
+  }
+  
+  .direction-arrow {
+    font-size: 16px;
+  }
+  
+  .active-color {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .color-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .btn-leave {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .opponents-area {
+    padding: 6px 10px;
+  }
+  
+  .opponent-card {
+    min-width: 80px;
+    padding: 8px 10px;
+  }
+  
+  .opponent-avatar {
+    font-size: 22px;
+  }
+  
+  .opponent-name {
+    font-size: 11px;
+    max-width: 60px;
+  }
+  
+  .opponent-hand {
+    max-width: 70px;
+  }
+  
+  .mini-card {
+    width: 6px;
+    height: 9px;
+  }
+  
+  .card-count {
+    font-size: 9px;
+  }
+  
+  .now-playing-badge {
+    font-size: 8px;
+    padding: 2px 6px;
+  }
+  
+  .play-area {
+    gap: 16px;
+    padding: 8px;
+  }
+  
+  .card-back {
+    width: 50px;
+    height: 75px;
+  }
+  
+  .lightning-icon {
+    font-size: 18px;
+  }
+  
+  .card-back-text {
+    font-size: 8px;
+  }
+  
+  .draw-label {
+    font-size: 10px;
+  }
+  
+  .played-card {
+    width: 60px;
+    height: 90px;
+  }
+  
+  .card-corner {
+    font-size: 10px;
+  }
+  
+  .card-center {
+    font-size: 24px;
+  }
+  
+  .wild-lightning {
+    font-size: 12px;
+  }
+  
+  .hand-area {
+    padding: 6px 8px 12px;
+  }
+  
+  .turn-indicator {
+    font-size: 12px;
+    padding: 6px;
+    margin-bottom: 8px;
+  }
+  
+  .hand-cards {
+    gap: 3px;
+  }
+  
+  .hand-card-wrapper {
+    margin-bottom: 2px;
+  }
+  
+  .hand-card-wrapper.playable:hover {
+    transform: translateY(-6px);
+  }
+  
+  .hand-card-wrapper.hovered {
+    transform: translateY(-3px);
+  }
+  
+  .uno-btn {
+    right: 12px;
+    top: -16px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .penalty-fixed {
+    top: 100px;
+    right: 8px;
+  }
+  
+  .penalty-label {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  
+  .penalty-fixed-btn {
+    padding: 8px 16px;
+    font-size: 12px;
   }
 }

@@ -222,17 +222,22 @@ function Game() {
 
         <div className="hand-scroll">
           <div className="hand-cards">
-            {sortedHand.map((card) => (
-              <div
-                key={card.id}
-                className={`hand-card-wrapper ${canPlayCard[card.id] ? 'playable' : ''} ${hoveredCard === card.id ? 'hovered' : ''}`}
-                onClick={() => handleCardClick(card)}
-                onMouseEnter={() => setHoveredCard(card.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                <Card card={card} compact />
-              </div>
-            ))}
+            {sortedHand.map((card, index) => {
+              const half = Math.ceil(sortedHand.length / 2);
+              const row = index < half ? 0 : 1;
+              return (
+                <div
+                  key={card.id}
+                  className={`hand-card-wrapper ${canPlayCard[card.id] ? 'playable' : ''} ${hoveredCard === card.id ? 'hovered' : ''}`}
+                  data-row={row}
+                  onClick={() => handleCardClick(card)}
+                  onMouseEnter={() => setHoveredCard(card.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                >
+                  <Card card={card} compact />
+                </div>
+              );
+            })}
           </div>
         </div>
 
