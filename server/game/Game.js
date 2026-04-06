@@ -12,7 +12,6 @@ class Game {
     this.topCard = null;
     this.activeColor = null;
     this.unoCalled = new Set();
-    this.pendingUnoPenalty = null;
     this.scores = {};
     this.round = 1;
     this.lastActivity = Date.now();
@@ -134,8 +133,6 @@ class Game {
       return { error: 'Oyun oynanmıyor' };
     }
 
-    this.pendingUnoPenalty = null;
-
     const currentPlayer = this.getCurrentPlayer();
     if (currentPlayer.socketId !== socketId) {
       return { error: 'Sıra sizde değil' };
@@ -185,14 +182,6 @@ class Game {
 
     if (currentPlayer.hand.length === 1) {
       this.unoCalled.add(socketId);
-    }
-
-    if (currentPlayer.hand.length === 1 && !this.unoCalled.has(socketId)) {
-      this.pendingUnoPenalty = socketId;
-    }
-
-    if (currentPlayer.hand.length === 1 && !this.unoCalled.has(socketId)) {
-      this.pendingUnoPenalty = socketId;
     }
 
     let skipNext = false;
@@ -246,8 +235,6 @@ class Game {
       return { error: 'Oyun oynanmıyor' };
     }
 
-    this.pendingUnoPenalty = null;
-
     const currentPlayer = this.getCurrentPlayer();
     if (currentPlayer.socketId !== socketId) {
       return { error: 'Sıra sizde değil' };
@@ -289,36 +276,6 @@ class Game {
       return { success: true };
     }
     return { error: 'UNO çağırmak için 2 veya daha az kartınız olmalı' };
-  }
-
-  penalizeUno(socketId) {
-    if (!this.pendingUnoPenalty) return { error: 'Bekleyen UNO cezası yok' };
-    const currentPlayer = this.getCurrentPlayer();
-    if (currentPlayer.socketId !== socketId) return { error: 'Sıra sizde değil' };
-
-    const target = this.players.find(p => p.socketId === this.pendingUnoPenalty);
-    if (!target) { this.pendingUnoPenalty = null; return { error: 'Hedef bulunamadı' }; }
-
-    const drawnCards = this.deck.draw(2);
-    target.hand.push(...drawnCards);
-    const targetNickname = target.nickname;
-    this.pendingUnoPenalty = null;
-    return { success: true, targetNickname, drawnCards: 2 };
-  }
-
-  penalizeUno(socketId) {
-    if (!this.pendingUnoPenalty) return { error: 'Bekleyen UNO cezası yok' };
-    const currentPlayer = this.getCurrentPlayer();
-    if (currentPlayer.socketId !== socketId) return { error: 'Sıra sizde değil' };
-
-    const target = this.players.find(p => p.socketId === this.pendingUnoPenalty);
-    if (!target) { this.pendingUnoPenalty = null; return { error: 'Hedef bulunamadı' }; }
-
-    const drawnCards = this.deck.draw(2);
-    target.hand.push(...drawnCards);
-    const targetNickname = target.nickname;
-    this.pendingUnoPenalty = null;
-    return { success: true, targetNickname, drawnCards: 2 };
   }
 
   endGame(winner) {
@@ -365,8 +322,6 @@ class Game {
     this.deck = new Deck();
     this.players.forEach(p => { p.hand = []; });
     this.unoCalled.clear();
-    this.pendingUnoPenalty = null;
-    this.pendingUnoPenalty = null;
 
     this.players.forEach(player => {
       player.hand = this.deck.draw(7);

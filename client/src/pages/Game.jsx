@@ -23,14 +23,12 @@ function Game() {
     canPlayDrawnCard,
     unoCalled,
     drawAnimation,
-    pendingUnoPenalty,
     playCard,
     drawCard,
     leaveRoom,
     requestColorPick,
     showColorPicker,
     handleColorPick,
-    penalizeUno,
   } = useSocket();
 
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -202,12 +200,6 @@ function Game() {
             <div className="empty-discard">Bekleniyor...</div>
           )}
         </div>
-
-        {pendingUnoPenalty && isMyTurn && (
-          <button className="btn-penalize-uno" onClick={penalizeUno}>
-            ⚠️ CEZA VER
-          </button>
-        )}
 
         {pendingUnoPenalty && isMyTurn && (
           <button className="btn-penalize-uno" onClick={penalizeUno}>

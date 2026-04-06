@@ -26,7 +26,6 @@ export function SocketProvider({ children }) {
   const [canPlayDrawnCard, setCanPlayDrawnCard] = useState(false);
   const [unoCalled, setUnoCalled] = useState(false);
   const [drawAnimation, setDrawAnimation] = useState(false);
-  const [pendingUnoPenalty, setPendingUnoPenalty] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -127,12 +126,6 @@ export function SocketProvider({ children }) {
       }
     });
 
-    socket.on('unoPenalized', ({ targetNickname, drawnCards }) => {
-      setError(`${targetNickname} +${drawnCards} UNO ceza kartı aldı!`);
-      setPendingUnoPenalty(null);
-      setTimeout(() => setError(null), 3000);
-    });
-
     socket.on('penaltyCards', ({ player, count }) => {
       setError(`${player} +${count} ceza kartı çekti!`);
       setTimeout(() => setError(null), 3000);
@@ -184,10 +177,6 @@ export function SocketProvider({ children }) {
 
   const callUno = useCallback(() => {
     socketRef.current.emit('callUno', { roomCode: roomCodeRef.current });
-  }, []);
-
-  const penalizeUno = useCallback(() => {
-    socketRef.current.emit('penalizeUno', { roomCode: roomCodeRef.current });
   }, []);
 
   const startNewRound = useCallback(() => {
@@ -243,14 +232,12 @@ export function SocketProvider({ children }) {
       canPlayDrawnCard,
       unoCalled,
       drawAnimation,
-      pendingUnoPenalty,
       createRoom,
       joinRoom,
       startGame,
       playCard,
       drawCard,
       callUno,
-      penalizeUno,
       startNewRound,
       leaveRoom,
       requestColorPick,
