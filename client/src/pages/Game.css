@@ -189,18 +189,6 @@
   animation: pulse 1s ease-in-out infinite;
 }
 
-.now-playing-badge {
-  font-size: 9px;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
-  color: var(--bg-primary);
-  padding: 3px 8px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  animation: pulse 1s ease-in-out infinite;
-}
-
 .opponent-avatar {
   font-size: 28px;
 }
@@ -477,6 +465,25 @@
   padding: 4px 0;
   max-width: 100%;
   overflow: visible;
+}
+
+.hand-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  padding: 2px 0;
+  align-items: center;
+  max-width: 100%;
+}
+
+.hand-card-wrapper {
+  flex-shrink: 1;
+  flex-basis: auto;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  opacity: 0.5;
+  min-width: 0;
 }
 
 .hand-card-wrapper.playable {
