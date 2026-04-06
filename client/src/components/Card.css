@@ -121,8 +121,152 @@
 
 @media (max-width: 768px) {
   .uno-card {
-    width: 55px;
-    height: 82px;
+    width: 48px;
+    height: 72px;
     border-radius: 8px;
     padding: 2px;
+  }
+  
+  .card-main-value {
+    font-size: 16px;
+  }
+  
+  .card-value {
+    font-size: 8px;
+  }
+  
+  .card-value.top {
+    top: 3px;
+    left: 4px;
+  }
+  
+  .card-value.bottom {
+    bottom: 3px;
+    right: 4px;
+  }
+  
+  .card-icon {
+    font-size: 14px;
+  }
+  
+  .card-label {
+    font-size: 5px;
+  }
+  
+  .card-face::before {
+    width: 68%;
+    height: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .uno-card {
+    width: 42px;
+    height: 63px;
+    border-radius: 6px;
+    padding: 1px;
+  }
+  
+  .card-main-value {
+    font-size: 14px;
+  }
+  
+  .card-value {
+    font-size: 7px;
+  }
+  
+  .card-value.top {
+    top: 2px;
+    left: 3px;
+  }
+  
+  .card-value.bottom {
+    bottom: 2px;
+    right: 3px;
+  }
+  
+  .card-icon {
+    font-size: 12px;
+  }
+  
+  .card-label {
+    font-size: 4px;
+  }
+  
+  .card-face::before {
+    width: 65%;
+    height: 48%;
+  }
+}
+  
+  .card-main-value {
+    font-size: 16px;
+  }
+  
+  .card-value {
+    font-size: 8px;
+  }
+  
+  .card-value.top {
+    top: 3px;
+    left: 4px;
+  }
+  
+  .card-value.bottom {
+    bottom: 3px;
+    right: 4px;
+  }
+  
+  .card-icon {
+    font-size: 14px;
+  }
+  
+  .card-label {
+    font-size: 5px;
+  }
+  
+  .card-face::before {
+    width: 68%;
+    height: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .uno-card {
+    width: 42px;
+    height: 63px;
+    border-radius: 6px;
+    padding: 1px;
+  }
+  
+  .card-main-value {
+    font-size: 14px;
+  }
+  
+  .card-value {
+    font-size: 7px;
+  }
+  
+  .card-value.top {
+    top: 2px;
+    left: 3px;
+  }
+  
+  .card-value.bottom {
+    bottom: 2px;
+    right: 3px;
+  }
+  
+  .card-icon {
+    font-size: 12px;
+  }
+  
+  .card-label {
+    font-size: 4px;
+  }
+  
+  .card-face::before {
+    width: 65%;
+    height: 48%;
+  }
 }

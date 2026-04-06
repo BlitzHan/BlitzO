@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import Card from '../components/Card';
 import ColorPicker from '../components/ColorPicker';
@@ -7,6 +7,7 @@ import './Game.css';
 
 function Game() {
   const { roomCode } = useParams();
+  const navigate = useNavigate();
   const {
     myHand,
     topCard,
@@ -119,7 +120,7 @@ function Game() {
     <div className="game-container">
       <div className="game-header">
         <div className="header-left">
-          <span className="blitzo-title" style={{ fontSize: '20px' }}>⚡ BlitzO!</span>
+          <span className="blitzo-title" style={{ fontSize: '20px', cursor: 'pointer' }} onClick={() => navigate('/')}>⚡ BlitzO!</span>
           <span className="round-badge">El {round}</span>
         </div>
         <div className="header-center">
@@ -138,7 +139,7 @@ function Game() {
           </div>
         </div>
         <div className="header-right">
-          <button className="btn-leave" onClick={leaveRoom}>Çıkış</button>
+          <button className="btn-leave" onClick={() => { leaveRoom(); navigate('/'); }}>Ana Sayfa</button>
         </div>
       </div>
 
