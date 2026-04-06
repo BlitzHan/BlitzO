@@ -1,0 +1,228 @@
+.scoreboard-container {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.confetti-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.confetti {
+  position: absolute;
+  bottom: -10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+
+.confetti:nth-child(5n+1) { background: var(--accent-gold); }
+.confetti:nth-child(5n+2) { background: var(--red); }
+.confetti:nth-child(5n+3) { background: var(--blue); }
+.confetti:nth-child(5n+4) { background: var(--green); }
+.confetti:nth-child(5n+5) { background: var(--accent-orange); }
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
+
+.scoreboard-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 500px;
+  animation: slideIn 0.5s ease;
+}
+
+.winner-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.winner-crown {
+  font-size: 64px;
+  animation: float 2s ease-in-out infinite;
+}
+
+.winner-name {
+  font-size: 36px;
+  margin: 12px 0;
+}
+
+.winner-subtitle {
+  font-size: 20px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.round-points {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 12px 24px;
+  border-radius: 12px;
+}
+
+.points-label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.points-value {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent-gold);
+}
+
+.scoreboard-table {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.scoreboard-table h3 {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.score-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.score-row.winner-row {
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.score-row.my-row {
+  border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.score-rank {
+  font-size: 20px;
+  width: 36px;
+  text-align: center;
+}
+
+.score-nickname {
+  flex: 1;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.me-badge {
+  font-size: 10px;
+  background: rgba(46, 204, 113, 0.2);
+  color: var(--green);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.winner-badge {
+  font-size: 14px;
+}
+
+.score-value {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--accent-gold);
+}
+
+.card-breakdown {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.card-breakdown h3 {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.player-breakdown {
+  margin-bottom: 12px;
+}
+
+.player-breakdown:last-child {
+  margin-bottom: 0;
+}
+
+.player-breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.player-breakdown-header span:first-child {
+  font-weight: 600;
+}
+
+.player-breakdown-header span:last-child {
+  color: var(--text-secondary);
+}
+
+.scoreboard-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.scoreboard-actions .btn-primary,
+.scoreboard-actions .btn-secondary {
+  min-width: 140px;
+}
+
+@media (max-width: 480px) {
+  .winner-name {
+    font-size: 28px;
+  }
+  
+  .winner-crown {
+    font-size: 48px;
+  }
+  
+  .scoreboard-actions {
+    flex-direction: column;
+  }
+}

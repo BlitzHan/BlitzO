@@ -1,0 +1,127 @@
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.lightning-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 165, 0, 0.05) 0%, transparent 50%),
+    var(--bg-primary);
+  animation: lightning 4s ease-in-out infinite;
+}
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.blitzo-title {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.forms-container {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.mode-toggle button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mode-toggle button.active {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+  color: var(--bg-primary);
+}
+
+.game-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.game-form .btn-primary {
+  margin-top: 8px;
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+}
+
+.error-message {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .blitzo-title {
+    font-size: 36px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+  
+  .forms-container {
+    padding: 16px;
+  }
+}
