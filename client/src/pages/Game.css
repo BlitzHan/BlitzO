@@ -490,87 +490,35 @@
   opacity: 1;
 }
 
-.hand-card-wrapper.playable:hover {
-  transform: translateY(-8px);
-  filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.4));
+  .hand-card-wrapper.hovered {
+    transform: translateY(-2px);
+  }
+  
+  .uno-auto-notice {
+    right: 10px;
+    top: -14px;
+    padding: 6px 14px;
+    font-size: 12px;
+  }
 }
 
 .hand-card-wrapper.hovered {
   transform: translateY(-4px);
 }
 
-.uno-btn {
+.uno-auto-notice {
   position: absolute;
   right: 20px;
   top: -20px;
   background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
-  border: none;
   padding: 10px 20px;
   border-radius: 20px;
   font-family: 'Orbitron', monospace;
   font-weight: 900;
   font-size: 16px;
-  cursor: pointer;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
-}
-
-.uno-btn.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.uno-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
-}
-
-.penalty-fixed {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 150;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  animation: slideIn 0.3s ease;
-}
-
-.penalty-label {
-  background: rgba(231, 76, 60, 0.9);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.penalty-fixed-btn {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
-  border: 3px solid #fff;
-  padding: 14px 28px;
-  border-radius: 12px;
-  font-family: 'Orbitron', monospace;
-  font-weight: 900;
-  font-size: 16px;
-  cursor: pointer;
   animation: pulse 0.8s ease-in-out infinite;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  box-shadow: 0 6px 25px rgba(231, 76, 60, 0.6);
-  transition: all 0.2s ease;
-}
-
-.penalty-fixed-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 35px rgba(231, 76, 60, 0.8);
 }
 
 @media (max-width: 768px) {
@@ -624,21 +572,6 @@
   .hand-row {
     gap: 2px;
     padding: 1px 0;
-  }
-  
-  .penalty-fixed {
-    top: 120px;
-    right: 10px;
-  }
-  
-  .penalty-label {
-    font-size: 11px;
-    padding: 6px 12px;
-  }
-  
-  .penalty-fixed-btn {
-    padding: 10px 20px;
-    font-size: 13px;
   }
 }
 
@@ -778,33 +711,14 @@
     padding: 1px 0;
   }
   
-  .hand-card-wrapper.playable:hover {
-    transform: translateY(-3px);
-  }
-  
   .hand-card-wrapper.hovered {
     transform: translateY(-2px);
   }
   
-  .uno-btn {
+  .uno-auto-notice {
     right: 10px;
     top: -14px;
     padding: 6px 14px;
-    font-size: 12px;
-  }
-  
-  .penalty-fixed {
-    top: 100px;
-    right: 8px;
-  }
-  
-  .penalty-label {
-    font-size: 10px;
-    padding: 5px 10px;
-  }
-  
-  .penalty-fixed-btn {
-    padding: 8px 16px;
     font-size: 12px;
   }
 }

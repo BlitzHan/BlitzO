@@ -88,6 +88,12 @@
   transform: rotate(180deg);
 }
 
+/* Wild kartlarda beyaz oval üstündeki yazılar koyu renk */
+.uno-card.wild .card-value {
+  color: #1a1a2e;
+  text-shadow: none;
+}
+
 .card-center-content {
   display: flex;
   flex-direction: column;
@@ -99,6 +105,15 @@
 .card-icon {
   font-size: 28px;
   line-height: 1;
+}
+
+/* Wild kartlarda ikon ve label koyu renk */
+.uno-card.wild .card-icon {
+  color: #1a1a2e;
+}
+
+.uno-card.wild .card-label {
+  color: #1a1a2e;
 }
 
 .card-label {
@@ -115,7 +130,7 @@
   font-weight: 900;
   color: #1a1a2e;
   font-family: 'Orbitron', monospace;
-  text-shadow: none;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   line-height: 1;
 }
 
@@ -163,150 +178,6 @@
   .uno-card {
     width: 44px;
     height: 66px;
-    border-radius: 6px;
-    padding: 1px;
-  }
-  
-  .card-main-value {
-    font-size: 14px;
-  }
-  
-  .card-value {
-    font-size: 7px;
-  }
-  
-  .card-value.top {
-    top: 2px;
-    left: 3px;
-  }
-  
-  .card-value.bottom {
-    bottom: 2px;
-    right: 3px;
-  }
-  
-  .card-icon {
-    font-size: 12px;
-  }
-  
-  .card-label {
-    font-size: 4px;
-  }
-  
-  .card-face::before {
-    width: 65%;
-    height: 48%;
-  }
-}
-  
-  .card-main-value {
-    font-size: 16px;
-  }
-  
-  .card-value {
-    font-size: 8px;
-  }
-  
-  .card-value.top {
-    top: 3px;
-    left: 4px;
-  }
-  
-  .card-value.bottom {
-    bottom: 3px;
-    right: 4px;
-  }
-  
-  .card-icon {
-    font-size: 14px;
-  }
-  
-  .card-label {
-    font-size: 5px;
-  }
-  
-  .card-face::before {
-    width: 68%;
-    height: 50%;
-  }
-}
-
-@media (max-width: 480px) {
-  .uno-card {
-    width: 44px;
-    height: 66px;
-    border-radius: 6px;
-    padding: 1px;
-  }
-  
-  .card-main-value {
-    font-size: 14px;
-  }
-  
-  .card-value {
-    font-size: 7px;
-  }
-  
-  .card-value.top {
-    top: 2px;
-    left: 3px;
-  }
-  
-  .card-value.bottom {
-    bottom: 2px;
-    right: 3px;
-  }
-  
-  .card-icon {
-    font-size: 12px;
-  }
-  
-  .card-label {
-    font-size: 4px;
-  }
-  
-  .card-face::before {
-    width: 65%;
-    height: 48%;
-  }
-}
-  
-  .card-main-value {
-    font-size: 16px;
-  }
-  
-  .card-value {
-    font-size: 8px;
-  }
-  
-  .card-value.top {
-    top: 3px;
-    left: 4px;
-  }
-  
-  .card-value.bottom {
-    bottom: 3px;
-    right: 4px;
-  }
-  
-  .card-icon {
-    font-size: 14px;
-  }
-  
-  .card-label {
-    font-size: 5px;
-  }
-  
-  .card-face::before {
-    width: 68%;
-    height: 50%;
-  }
-}
-
-@media (max-width: 480px) {
-  .uno-card {
-    width: 42px;
-    height: 63px;
     border-radius: 6px;
     padding: 1px;
   }

@@ -21,12 +21,9 @@ function Game() {
     gameStatus,
     canPlayDrawnCard,
     unoCalled,
-    pendingUnoPenalty,
     drawAnimation,
     playCard,
     drawCard,
-    callUno,
-    penalizeUno,
     leaveRoom,
     requestColorPick,
     showColorPicker,
@@ -92,12 +89,6 @@ function Game() {
       requestColorPick(card);
     } else {
       playCard(card.id);
-    }
-  };
-
-  const handleUno = () => {
-    if (myHand.length <= 2) {
-      callUno();
     }
   };
 
@@ -261,25 +252,13 @@ function Game() {
           })()}
         </div>
 
-        {myHand.length === 2 && (
-          <button
-            className={`uno-btn ${isMyTurn ? 'visible' : ''}`}
-            onClick={handleUno}
-          >
-            UNO!
-          </button>
+        {myHand.length <= 2 && (
+          <div className="uno-auto-notice">UNO!</div>
         )}
       </div>
 
       {showColorPicker && (
         <ColorPicker onColorPick={handleColorPick} />
-      )}
-
-      {pendingUnoPenalty && isMyTurn && (
-        <div className="penalty-fixed">
-          <span className="penalty-label">⚠️ {pendingUnoPenalty.targetNickname} UNO demedi!</span>
-          <button className="penalty-fixed-btn" onClick={penalizeUno}>CEZA VER</button>
-        </div>
       )}
     </div>
   );

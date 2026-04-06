@@ -25,7 +25,6 @@ export function SocketProvider({ children }) {
   const [pendingCard, setPendingCard] = useState(null);
   const [canPlayDrawnCard, setCanPlayDrawnCard] = useState(false);
   const [unoCalled, setUnoCalled] = useState(false);
-  const [pendingUnoPenalty, setPendingUnoPenalty] = useState(null);
   const [drawAnimation, setDrawAnimation] = useState(false);
   const navigate = useNavigate();
 
@@ -103,22 +102,20 @@ export function SocketProvider({ children }) {
       }));
     });
 
-    socket.on('cardPlayed', ({ card, player, activeColor: ac, direction: dir, currentPlayer, pendingUnoPenalty: p }) => {
+    socket.on('cardPlayed', ({ card, player, activeColor: ac, direction: dir, currentPlayer, autoUno, unoPlayer }) => {
       if (card) setTopCard(card);
       setActiveColor(ac);
       if (dir) setDirection(dir);
       if (currentPlayer) setCurrentPlayerSocket(currentPlayer);
-      setPendingUnoPenalty(p || null);
+      if (autoUno && unoPlayer) {
+        setUnoCalled(true);
+        setTimeout(() => setUnoCalled(false), 2000);
+      }
     });
 
-    socket.on('unoPenalized', ({ targetNickname, drawnCards, playerCount }) => {
+    socket.on('unoPenalized', ({ targetNickname, drawnCards }) => {
       setError(`${targetNickname} UNO cezası aldı! +${drawnCards} kart`);
       setTimeout(() => setError(null), 3000);
-      setPendingUnoPenalty(null);
-      setPlayers(prev => prev.map(p => {
-        const updated = playerCount.find(pc => pc.nickname === p.nickname);
-        return updated ? { ...p, handCount: updated.handCount } : p;
-      }));
     });
 
     socket.on('cardDrawn', ({ drawnCard, canPlay }) => {
@@ -180,10 +177,6 @@ export function SocketProvider({ children }) {
     socketRef.current.emit('callUno', { roomCode: roomCodeRef.current });
   }, []);
 
-  const penalizeUno = useCallback(() => {
-    socketRef.current.emit('penalizeUno', { roomCode: roomCodeRef.current });
-  }, []);
-
   const startNewRound = useCallback(() => {
     socketRef.current.emit('startNewRound', { roomCode: roomCodeRef.current });
     setGameResult(null);
@@ -236,7 +229,6 @@ export function SocketProvider({ children }) {
       showColorPicker,
       canPlayDrawnCard,
       unoCalled,
-      pendingUnoPenalty,
       drawAnimation,
       createRoom,
       joinRoom,
@@ -244,7 +236,6 @@ export function SocketProvider({ children }) {
       playCard,
       drawCard,
       callUno,
-      penalizeUno,
       startNewRound,
       leaveRoom,
       requestColorPick,

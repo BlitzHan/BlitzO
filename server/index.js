@@ -118,7 +118,8 @@ io.on('connection', (socket) => {
         currentPlayer: result.currentPlayer?.socketId,
         drawnCards: result.drawnCards,
         skipped: result.skipped,
-        pendingUnoPenalty: game.pendingUnoPenalty,
+        autoUno: result.autoUno,
+        unoPlayer: result.unoPlayer,
       });
 
       game.players.forEach(player => {
@@ -209,43 +210,6 @@ io.on('connection', (socket) => {
       });
     } catch (err) {
       socket.emit('error', { message: 'UNO çağrılamadı' });
-    }
-  });
-
-  socket.on('penalizeUno', ({ roomCode }) => {
-    try {
-      const game = roomManager.getRoom(roomCode);
-      if (!game) {
-        socket.emit('error', { message: 'Oda bulunamadı' });
-        return;
-      }
-
-      const result = game.penalizeUno(socket.id);
-      if (result.error) {
-        socket.emit('error', { message: result.error });
-        return;
-      }
-
-      io.to(roomCode).emit('unoPenalized', {
-        targetNickname: result.targetNickname,
-        drawnCards: result.drawnCards,
-        playerCount: game.players.map(p => ({
-          nickname: p.nickname,
-          handCount: p.hand.length,
-        })),
-      });
-
-      game.players.forEach(player => {
-        io.to(player.socketId).emit('updateHand', {
-          hand: player.hand,
-          playerCount: game.players.map(p => ({
-            nickname: p.nickname,
-            handCount: p.hand.length,
-          })),
-        });
-      });
-    } catch (err) {
-      socket.emit('error', { message: 'UNO cezası verilemedi' });
     }
   });
 

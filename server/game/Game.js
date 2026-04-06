@@ -15,7 +15,6 @@ class Game {
     this.scores = {};
     this.round = 1;
     this.lastActivity = Date.now();
-    this.pendingUnoPenalty = null;
   }
 
   addPlayer(socketId, nickname) {
@@ -94,7 +93,6 @@ class Game {
     this.direction = 1;
     this.status = 'playing';
     this.lastActivity = Date.now();
-    this.pendingUnoPenalty = null;
 
     if (firstCard.type === 'special' && firstCard.value === 'skip') {
       this.currentPlayerIndex = this.getNextPlayerIndex();
@@ -151,17 +149,12 @@ class Game {
       return { error: 'Bu kartı oynayamazsınız' };
     }
 
-    this.pendingUnoPenalty = null;
-
     if (card.type === 'wild' && !chosenColor) {
       return { error: 'Renk seçmelisiniz', needColor: true };
     }
 
     if (currentPlayer.hand.length === 2 && !this.unoCalled.has(socketId)) {
-      this.pendingUnoPenalty = {
-        targetSocketId: socketId,
-        targetNickname: currentPlayer.nickname,
-      };
+      this.unoCalled.add(socketId);
     }
 
     currentPlayer.hand.splice(cardIndex, 1);
@@ -186,6 +179,10 @@ class Game {
         gameEnded: true,
         winner: currentPlayer.nickname,
       };
+    }
+
+    if (currentPlayer.hand.length === 1) {
+      this.unoCalled.add(socketId);
     }
 
     let skipNext = false;
@@ -229,6 +226,8 @@ class Game {
       direction: this.direction,
       drawnCards: drawCards,
       skipped: skipNext,
+      autoUno: currentPlayer.hand.length === 1,
+      unoPlayer: currentPlayer.hand.length === 1 ? currentPlayer.nickname : null,
     };
   }
 
@@ -236,8 +235,6 @@ class Game {
     if (this.status !== 'playing') {
       return { error: 'Oyun oynanmıyor' };
     }
-
-    this.pendingUnoPenalty = null;
 
     const currentPlayer = this.getCurrentPlayer();
     if (currentPlayer.socketId !== socketId) {
@@ -277,33 +274,9 @@ class Game {
 
     if (player.hand.length <= 2) {
       this.unoCalled.add(socketId);
-      this.pendingUnoPenalty = null;
       return { success: true };
     }
     return { error: 'UNO çağırmak için 2 veya daha az kartınız olmalı' };
-  }
-
-  penalizeUno(socketId) {
-    if (!this.pendingUnoPenalty) {
-      return { error: 'UNO cezası yok' };
-    }
-
-    const targetPlayer = this.players.find(p => p.socketId === this.pendingUnoPenalty.targetSocketId);
-    if (!targetPlayer) {
-      this.pendingUnoPenalty = null;
-      return { error: 'Hedef oyuncu bulunamadı' };
-    }
-
-    const drawnCards = this.deck.draw(2);
-    targetPlayer.hand.push(...drawnCards);
-    const penalty = this.pendingUnoPenalty;
-    this.pendingUnoPenalty = null;
-
-    return {
-      success: true,
-      targetNickname: penalty.targetNickname,
-      drawnCards: 2,
-    };
   }
 
   endGame(winner) {
@@ -368,7 +341,6 @@ class Game {
     this.direction = 1;
     this.status = 'playing';
     this.lastActivity = Date.now();
-    this.pendingUnoPenalty = null;
 
     return {
       topCard: this.topCard,
