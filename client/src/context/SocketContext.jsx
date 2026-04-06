@@ -121,12 +121,19 @@ export function SocketProvider({ children }) {
     socket.on('cardDrawn', ({ drawnCard, canPlay }) => {
       setDrawAnimation(true);
       setTimeout(() => setDrawAnimation(false), 600);
-      if (drawnCard) {
-        setMyHand(prev => [...prev, drawnCard]);
-      }
       if (canPlay) {
         setCanPlayDrawnCard(true);
       }
+    });
+
+    socket.on('penaltyCards', ({ player, count }) => {
+      setError(`${player} +${count} ceza kartı çekti!`);
+      setTimeout(() => setError(null), 3000);
+    });
+
+    socket.on('penaltyCards', ({ player, count }) => {
+      setError(`${player} +${count} ceza kartı çekti!`);
+      setTimeout(() => setError(null), 3000);
     });
 
     socket.on('gameEnded', (result) => {
