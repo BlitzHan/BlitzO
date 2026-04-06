@@ -9,6 +9,7 @@ function Game() {
   const { roomCode } = useParams();
   const navigate = useNavigate();
   const {
+    socket,
     myHand,
     topCard,
     activeColor,
@@ -22,12 +23,14 @@ function Game() {
     canPlayDrawnCard,
     unoCalled,
     drawAnimation,
+    pendingUnoPenalty,
     playCard,
     drawCard,
     leaveRoom,
     requestColorPick,
     showColorPicker,
     handleColorPick,
+    penalizeUno,
   } = useSocket();
 
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -49,7 +52,7 @@ function Game() {
     });
   }, [myHand]);
 
-  const isMyTurn = currentPlayerSocket === useSocket().socket?.id;
+  const isMyTurn = currentPlayerSocket === socket?.id;
   const myPlayer = players.find(p => p.nickname === myNickname);
   const otherPlayers = players.filter(p => p.nickname !== myNickname);
 
@@ -199,6 +202,18 @@ function Game() {
             <div className="empty-discard">Bekleniyor...</div>
           )}
         </div>
+
+        {pendingUnoPenalty && isMyTurn && (
+          <button className="btn-penalize-uno" onClick={penalizeUno}>
+            ⚠️ CEZA VER
+          </button>
+        )}
+
+        {pendingUnoPenalty && isMyTurn && (
+          <button className="btn-penalize-uno" onClick={penalizeUno}>
+            ⚠️ CEZA VER
+          </button>
+        )}
 
         {canPlayDrawnCard && (
           <div className="drawn-card-notice">

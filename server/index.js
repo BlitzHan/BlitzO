@@ -183,25 +183,42 @@ io.on('connection', (socket) => {
           currentPlayer: result.currentPlayer?.socketId,
           drawn: true,
         });
+      }
 
-      if (result.drawnCards > 0) {
-        const targetPlayer = game.players.find(p => p.socketId === result.currentPlayer?.socketId);
-        io.to(roomCode).emit('penaltyCards', {
-          player: targetPlayer?.nickname || 'Oyuncu',
-          count: result.drawnCards,
+      game.players.forEach(player => {
+        io.to(player.socketId).emit('updateHand', {
+          hand: player.hand,
+          playerCount: game.players.map(p => ({
+            nickname: p.nickname,
+            handCount: p.hand.length,
+          })),
+        });
+      });
+    } catch (err) {
+      socket.emit('error', { message: 'Kart çekilemedi' });
+    }
+  });
+
+      if (!result.canPlay) {
+        io.to(roomCode).emit('cardPlayed', {
+          card: null,
+          player: game.players.find(p => p.socketId === socket.id)?.nickname,
+          activeColor: game.activeColor,
+          direction: game.direction,
+          currentPlayer: result.currentPlayer?.socketId,
+          drawn: true,
         });
       }
 
       game.players.forEach(player => {
-          io.to(player.socketId).emit('updateHand', {
-            hand: player.hand,
-            playerCount: game.players.map(p => ({
-              nickname: p.nickname,
-              handCount: p.hand.length,
-            })),
-          });
+        io.to(player.socketId).emit('updateHand', {
+          hand: player.hand,
+          playerCount: game.players.map(p => ({
+            nickname: p.nickname,
+            handCount: p.hand.length,
+          })),
         });
-      }
+      });
     } catch (err) {
       socket.emit('error', { message: 'Kart çekilemedi' });
     }
@@ -226,6 +243,72 @@ io.on('connection', (socket) => {
       });
     } catch (err) {
       socket.emit('error', { message: 'UNO çağrılamadı' });
+    }
+  });
+
+  socket.on('penalizeUno', ({ roomCode }) => {
+    try {
+      const game = roomManager.getRoom(roomCode);
+      if (!game) {
+        socket.emit('error', { message: 'Oda bulunamadı' });
+        return;
+      }
+
+      const result = game.penalizeUno(socket.id);
+      if (result.error) {
+        socket.emit('error', { message: result.error });
+        return;
+      }
+
+      io.to(roomCode).emit('unoPenalized', {
+        targetNickname: result.targetNickname,
+        drawnCards: result.drawnCards,
+      });
+
+      game.players.forEach(player => {
+        io.to(player.socketId).emit('updateHand', {
+          hand: player.hand,
+          playerCount: game.players.map(p => ({
+            nickname: p.nickname,
+            handCount: p.hand.length,
+          })),
+        });
+      });
+    } catch (err) {
+      socket.emit('error', { message: 'UNO cezası uygulanamadı' });
+    }
+  });
+
+  socket.on('penalizeUno', ({ roomCode }) => {
+    try {
+      const game = roomManager.getRoom(roomCode);
+      if (!game) {
+        socket.emit('error', { message: 'Oda bulunamadı' });
+        return;
+      }
+
+      const result = game.penalizeUno(socket.id);
+      if (result.error) {
+        socket.emit('error', { message: result.error });
+        return;
+      }
+
+      io.to(roomCode).emit('unoPenalized', {
+        targetNickname: result.targetNickname,
+        drawnCards: result.drawnCards,
+      });
+
+      game.players.forEach(player => {
+        io.to(player.socketId).emit('updateHand', {
+          hand: player.hand,
+          playerCount: game.players.map(p => ({
+            nickname: p.nickname,
+            handCount: p.hand.length,
+          })),
+        });
+      });
+    } catch (err) {
+      socket.emit('error', { message: 'UNO cezası uygulanamadı' });
     }
   });
 
