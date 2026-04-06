@@ -122,6 +122,14 @@ io.on('connection', (socket) => {
         unoPlayer: result.unoPlayer,
       });
 
+      if (result.drawnCards > 0) {
+        const targetPlayer = game.players.find(p => p.socketId === result.currentPlayer?.socketId);
+        io.to(roomCode).emit('penaltyCards', {
+          player: targetPlayer?.nickname || 'Oyuncu',
+          count: result.drawnCards,
+        });
+      }
+
       game.players.forEach(player => {
         io.to(player.socketId).emit('updateHand', {
           hand: player.hand,
