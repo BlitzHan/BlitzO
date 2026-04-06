@@ -81,7 +81,7 @@ function Game() {
     if (!isMyTurn || gameStatus !== 'playing' || isDrawing) return;
     setIsDrawing(true);
     drawCard();
-    setTimeout(() => setIsDrawing(false), 800);
+    setTimeout(() => setIsDrawing(false), 1200);
   };
 
   const handleCardClick = (card) => {

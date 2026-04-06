@@ -124,6 +124,9 @@ export function SocketProvider({ children }) {
     socket.on('cardDrawn', ({ drawnCard, canPlay }) => {
       setDrawAnimation(true);
       setTimeout(() => setDrawAnimation(false), 600);
+      if (drawnCard) {
+        setMyHand(prev => [...prev, drawnCard]);
+      }
       if (canPlay) {
         setCanPlayDrawnCard(true);
       }
