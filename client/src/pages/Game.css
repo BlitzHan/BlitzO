@@ -573,13 +573,67 @@
   }
   
   .hand-row {
-    gap: 1px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 1px 0;
+    width: 100%;
+  }
+
+  .hand-card-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hand-card-wrapper .uno-card {
+    width: 100%;
+    max-width: 60px;
+    height: auto;
+    aspect-ratio: 2/3;
+  }
+}
+  
+  .hand-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 1px 0;
+    width: 100%;
+  }
+
+  .hand-card-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hand-card-wrapper .uno-card {
+    width: 100%;
+    max-width: 60px;
+    height: auto;
+    aspect-ratio: 2/3;
+  }
+}
+  
+  .hand-row {
+    gap: 2px;
+    padding: 1px 0;
+  }
+
+  .hand-card-wrapper .uno-card {
+    width: 50px !important;
+    height: 75px !important;
+  }
+}
+  
+  .hand-row {
+    gap: 2px;
     padding: 1px 0;
   }
 
   .hand-card-wrapper {
-    flex-basis: calc(50% - 2px);
-    max-width: calc(50% - 2px);
+    flex-basis: auto !important;
+    max-width: none !important;
+    width: 50px !important;
   }
 }
 
@@ -729,20 +783,36 @@
   }
   
   .hand-row {
-    gap: 1px;
-    padding: 1px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+    padding: 2px 0;
+    width: 100%;
   }
-  
+
   .hand-card-wrapper {
-    flex-basis: calc(50% - 1px);
-    max-width: calc(50% - 2px);
+    display: flex;
+    justify-content: center;
   }
 
   .hand-card-wrapper .uno-card {
     width: 100%;
+    max-width: 55px;
     height: auto;
     aspect-ratio: 2/3;
   }
+  
+  .hand-card-wrapper.hovered {
+    transform: translateY(-2px);
+  }
+  
+  .uno-auto-notice {
+    right: 10px;
+    top: -14px;
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+}
   
   .turn-indicator {
     font-size: 11px;
@@ -751,17 +821,21 @@
   }
   
   .hand-row {
-    gap: 1px;
-    padding: 1px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+    padding: 2px 0;
+    width: 100%;
   }
-  
+
   .hand-card-wrapper {
-    flex-basis: calc(50% - 1px);
-    max-width: calc(50% - 2px);
+    display: flex;
+    justify-content: center;
   }
 
   .hand-card-wrapper .uno-card {
     width: 100%;
+    max-width: 55px;
     height: auto;
     aspect-ratio: 2/3;
   }
