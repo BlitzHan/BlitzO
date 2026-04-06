@@ -6,7 +6,7 @@
 ## Teknoloji Stack
 - **Backend:** Node.js + Express + Socket.io
 - **Frontend:** React 18 + Vite + React Router
-- **Deploy:** VPS + Nginx reverse proxy + PM2 + Let's Encrypt SSL
+- **Deploy:** VPS + Nginx reverse proxy + PM2 + Cloudflare Origin Certificate (Full SSL)
 
 ## Proje Yapısı
 ```
@@ -35,6 +35,7 @@ BlitzO/
 │   └── package.json
 ├── start.command             # Çift tıkla başlatma (macOS)
 ├── DEPLOY.md                 # VPS deploy rehberi
+├── AGENTS.md                 # Bu dosya
 └── .gitignore
 ```
 
@@ -65,9 +66,16 @@ BlitzO/
 - **Socket bağlantısı:** `io('/')` — Vite proxy üzerinden bağlanır (LAN'da da çalışır)
 - **Sıra göstergesi:** Header'da büyük "SIRA: [isim]" + opponent kartlarında "Şimdi Oynuyor" badge'i
 - **Kart sıralaması:** Renk (Kırmızı→Mavi→Yeşil→Sarı→Wild) + tip (sayı→özel→wild) + değer
-- **Kart çekme:** `isDrawing` state'i ile 800ms debounce, animasyon efekti (shake + fly + ripple)
+- **Kart çekme:** `isDrawing` state'i ile 1200ms debounce. `cardDrawn` event'inde `drawnCard` direkt hand'e eklenir (anında görünür). Animasyon efekti (shake + fly + ripple)
 - **UNO ceza:** `pendingUnoPenalty` state'i server'da tutulur, sıradaki oyuncu `penalizeUno` event'i ile uygular. Kart oynama/çekme cezayı sıfırlamaz, sadece butonla uygulanır.
 - **Draw4 cezası:** Önce hedef oyuncu 4 kart çeker, sonra sırası atlanır
+- **Navigasyon:** BlitzO! logosu ve "Ana Sayfa" butonu ana sayfaya yönlendirir (`useNavigate`)
+
+## Mobil Responsive
+- Kartlar `flex-wrap` ile otomatik satırlara bölünür
+- `.hand-row` + `flex-shrink: 1` ile kartlar ekrana sığar
+- 768px altında: kartlar 50x75px, 480px altında: 44x66px
+- `overflow: visible` ile kartlar taşmaz, wrap olur
 
 ## Geliştirme
 ```bash
@@ -84,6 +92,8 @@ cd client && npm run build  # dist/ klasörüne çıktı
 
 ## Deploy
 Detaylar: `DEPLOY.md`
-- DNS: `blitzo.yildirimyigit.com` → A record → VPS IP
+- DNS: `blitzo.yildirimyigit.com` → A record → `<VPS_IP>` (Cloudflare proxied)
 - Nginx: WebSocket upgrade desteği ile reverse proxy
-- SSL: `certbot --nginx -d blitzo.yildirimyigit.com`
+- SSL: Cloudflare Origin Certificate (Full mode)
+- Sunucu: `ssh root@<VPS_IP>`
+- Deploy path: `/var/www/blitzo`
