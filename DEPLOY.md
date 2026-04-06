@@ -1,132 +1,120 @@
-# BlitzO! - Deploy Rehberi
+# ⚡ BlitzO! — Sunucu Kurulum Rehberi
 
-## Genel Bakış
-BlitzO! Node.js + Socket.io backend ve React + Vite frontend ile geliştirilmiş gerçek zamanlı bir online Uno oyunudur.
-
-**Hedef URL:** `blitzo.yildirimyigit.com`
+> Bu rehber, BlitzO! projesini kendi VPS sunucuna yükleyip online olarak oynaman için adım adım hazırlanmıştır.
 
 ---
 
-## 1. VPS Hazırlığı
+## 📋 Ön Gereksinimler
 
-### Sunucuya bağlan
+- Ubuntu 20.04+ VPS sunucu
+- Bir domain (örn: `senindomain.com`)
+- SSH erişimi
+
+> **Not:** Bu rehberdeki `blitzo.senindomain.com` ve `SUNUCU_IP` kısımlarını kendi bilgilerine göre değiştir.
+
+---
+
+## 1️⃣ Sunucuya Bağlan
+
 ```bash
-ssh root@<VPS_IP>
+ssh root@SUNUCU_IP
 ```
 
-### Sistem güncelleme
+---
+
+## 2️⃣ Gerekli Yazılımları Kur
+
 ```bash
+# Sistem güncelle
 apt update && apt upgrade -y
-```
 
-### Node.js kurulumu (v18+)
-```bash
+# Node.js 18+
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 apt install -y nodejs
-node -v  # v18.x.x olmalı
-npm -v
-```
 
-### PM2 kurulumu
-```bash
+# PM2 (sürekli çalıştırma)
 npm install -g pm2
-```
 
-### Nginx kurulumu
-```bash
+# Nginx (reverse proxy)
 apt install -y nginx
-```
 
-### SSL için Certbot
-```bash
+# SSL sertifikası
 apt install -y certbot python3-certbot-nginx
 ```
 
----
-
-## 2. DNS Ayarı
-
-Domain sağlayıcınızda aşağıdaki A kaydını oluşturun:
-
-```
-Tip:    A
-Name:   blitzo
-Value:  <VPS_IP_ADRESINIZ>
-TTL:    300
-```
-
-DNS yayılımı 5-30 dakika sürebilir. Kontrol:
+Kontrol:
 ```bash
-nslookup blitzo.yildirimyigit.com
+node -v   # v18.x.x olmalı
+npm -v
+pm2 -v
+nginx -v
 ```
 
 ---
 
-## 3. Uygulama Kurulumu
+## 3️⃣ DNS Ayarı
 
-### Proje dizini oluştur
+Domain sağlayıcında (Cloudflare, GoDaddy, vs.) A kaydı ekle:
+
+| Tip | Name | Value | TTL |
+|-----|------|-------|-----|
+| A | blitzo | SUNUCU_IP | 300 |
+
+DNS yayılımı 5-30 dakika sürer. Kontrol:
 ```bash
+nslookup blitzo.senindomain.com
+```
+
+---
+
+## 4️⃣ Projeyi Sunucuya Yükle
+
+```bash
+# Dizin oluştur
 mkdir -p /var/www/blitzo
 cd /var/www/blitzo
-```
 
-### Projeyi yükle (git veya SCP ile)
-```bash
-# Git ile
-git clone <repo_url> /var/www/blitzo
-cd /var/www/blitzo
+# GitHub'dan çek
+git clone https://github.com/BlitzHan/BlitzO.git .
 
-# Veya SCP ile
-scp -r /local/path/BlitzO/* root@<VPS_IP>:/var/www/blitzo/
-```
-
-### Frontend build
-```bash
-cd /var/www/blitzO/client
-npm install
-npm run build
-```
-
-### Backend bağımlılıkları
-```bash
-cd /var/www/blitzO/server
-npm install
+# Bağımlılıkları yükle
+cd server && npm install
+cd ../client && npm install && npm run build
 ```
 
 ---
 
-## 4. PM2 ile Uygulama Başlatma
+## 5️⃣ Backend'i Başlat
 
 ```bash
-cd /var/www/blitzO/server
+cd /var/www/blitzo/server
 pm2 start index.js --name blitzo
 pm2 startup
 pm2 save
 ```
 
-### PM2 komutları
+Kontrol:
 ```bash
-pm2 status          # Durum kontrol
-pm2 logs blitzo     # Logları görüntüle
-pm2 restart blitzo  # Yeniden başlat
-pm2 stop blitzo     # Durdur
-pm2 monit           # Kaynak kullanımı
+pm2 status        # Çalışıyor mu?
+pm2 logs blitzo   # Logları gör
 ```
 
 ---
 
-## 5. Nginx Reverse Proxy
+## 6️⃣ Nginx Kurulumu
 
-### Site konfigürasyonu oluştur
+Konfigürasyon dosyası oluştur:
+
 ```bash
 nano /etc/nginx/sites-available/blitzo
 ```
 
-### Konfigürasyon içeriği
+İçine yapıştır (`blitzo.senindomain.com` kısmını değiştir):
+
 ```nginx
 server {
     listen 80;
-    server_name blitzo.yildirimyigit.com;
+    server_name blitzo.senindomain.com;
 
     client_max_body_size 10M;
 
@@ -141,43 +129,36 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_read_timeout 86400;
     }
-
-    location /socket.io/ {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
 }
 ```
 
-### Siteyi aktif et
+Aktif et:
+
 ```bash
-ln -s /etc/nginx/sites-available/blitzo /etc/nginx/sites-enabled/blitzo
-nginx -t
-systemctl reload nginx
+ln -s /etc/nginx/sites-available/blitzo /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
 ```
 
 ---
 
-## 6. SSL Sertifikası (Let's Encrypt)
+## 7️⃣ SSL Sertifikası (HTTPS)
 
 ```bash
-certbot --nginx -d blitzo.yildirimyigit.com
+certbot --nginx -d blitzo.senindomain.com
 ```
 
-Sertifika otomatik yenilenir. Manuel test:
+- E-posta adresini gir
+- Kuralları kabul et
+- Otomatik yönlendirme sorusuna **2** (redirect) yaz
+
+Sertifika otomatik yenilenir. Test:
 ```bash
 certbot renew --dry-run
 ```
 
 ---
 
-## 7. Güvenlik Duvarı
+## 8️⃣ Güvenlik Duvarı
 
 ```bash
 ufw allow 80/tcp
@@ -188,53 +169,39 @@ ufw enable
 
 ---
 
-## 8. Ortam Değişkenleri (Opsiyonel)
+## ✅ Bitti!
 
-`/var/www/blitzO/server/.env`:
-```
-PORT=3000
-NODE_ENV=production
-```
-
-Frontend `.env` dosyası (`client/.env`):
-```
-VITE_SERVER_URL=https://blitzo.yildirimyigit.com
-```
+Tarayıcıda **https://blitzo.senindomain.com** adresini aç.
 
 ---
 
-## 9. Güncelleme/Deploy Sonrası
+## 🔄 Güncelleme Yapmak
 
 ```bash
-cd /var/www/blitzO
-git pull  # veya yeni dosyaları yükle
-
+cd /var/www/blitzo
+git pull
 cd client && npm install && npm run build
 cd ../server && npm install
-
 pm2 restart blitzo
 ```
 
 ---
 
-## 10. Sorun Giderme
+## 🐛 Sorun Giderme
 
-### Uygulama başlamıyor
+### Site açılmıyor
 ```bash
-pm2 logs blitzo --lines 100
-```
-
-### Nginx hata logları
-```bash
+pm2 status            # Backend çalışıyor mu?
+pm2 logs blitzo       # Hata var mı?
+systemctl status nginx  # Nginx çalışıyor mu?
 tail -f /var/log/nginx/error.log
 ```
 
-### WebSocket bağlantı sorunu
-- Nginx config'inde `proxy_set_header Upgrade` ve `Connection "upgrade"` olduğundan emin olun
-- Firewall 80/443 portlarının açık olduğunu kontrol edin
-- Tarayıcı console'unda WebSocket hata mesajlarını kontrol edin
+### WebSocket bağlanmıyor
+- Nginx config'inde `proxy_set_header Upgrade` ve `Connection "upgrade"` olduğundan emin ol
+- Firewall 80/443 açık mı kontrol et
 
-### Port zaten kullanımda
+### Port 3000 dolu
 ```bash
 lsof -i :3000
 kill -9 <PID>
@@ -243,47 +210,14 @@ pm2 restart blitzo
 
 ---
 
-## Hızlı Kurulum Scripti
+## 📞 Hızlı Komut Özeti
 
-```bash
-#!/bin/bash
-set -e
-
-echo "⚡ BlitzO! Kurulum Başlıyor..."
-
-apt update && apt upgrade -y
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-apt install -y nodejs nginx certbot python3-certbot-nginx
-npm install -g pm2
-
-mkdir -p /var/www/blitzo
-# Proje dosyalarını kopyala
-
-cd /var/www/blitzo/client && npm install && npm run build
-cd ../server && npm install
-
-pm2 start index.js --name blitzo
-pm2 startup
-pm2 save
-
-cat > /etc/nginx/sites-available/blitzo << 'EOF'
-server {
-    listen 80;
-    server_name blitzo.yildirimyigit.com;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-    }
-}
-EOF
-
-ln -sf /etc/nginx/sites-available/blitzo /etc/nginx/sites-enabled/
-nginx -t && systemctl reload nginx
-
-echo "✅ Kurulum tamamlandı!"
-echo "🔒 SSL için: certbot --nginx -d blitzo.yildirimyigit.com"
-```
+| İşlem | Komut |
+|-------|-------|
+| Başlat | `pm2 start /var/www/blitzo/server/index.js --name blitzo` |
+| Durdur | `pm2 stop blitzo` |
+| Yeniden başlat | `pm2 restart blitzo` |
+| Loglar | `pm2 logs blitzo` |
+| Güncelle | `cd /var/www/blitzo && git pull && cd client && npm run build && pm2 restart blitzo` |
+| Nginx test | `nginx -t && systemctl reload nginx` |
+| SSL yenile | `certbot renew` |
