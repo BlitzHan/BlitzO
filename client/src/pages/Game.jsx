@@ -35,6 +35,16 @@ function Game() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [showTurnPopup, setShowTurnPopup] = useState(false);
 
+  const isMyTurn = currentPlayerSocket === socket?.id;
+
+  useEffect(() => {
+    if (isMyTurn && gameStatus === 'playing') {
+      setShowTurnPopup(true);
+      const t = setTimeout(() => setShowTurnPopup(false), 1500);
+      return () => clearTimeout(t);
+    }
+  }, [isMyTurn, gameStatus]);
+
   const sortedHand = useMemo(() => {
     const colorOrder = { red: 0, blue: 1, green: 2, yellow: 3, wild: 4 };
     const typeOrder = { number: 0, special: 1, wild: 2 };
