@@ -169,12 +169,7 @@ io.on('connection', (socket) => {
         return;
       }
 
-      socket.emit('cardDrawn', {
-        drawnCard: result.drawnCard,
-        canPlay: result.canPlay,
-      });
-
-      if (!result.canPlay) {
+      if (result.passed) {
         io.to(roomCode).emit('cardPlayed', {
           card: null,
           player: game.players.find(p => p.socketId === socket.id)?.nickname,
@@ -183,21 +178,13 @@ io.on('connection', (socket) => {
           currentPlayer: result.currentPlayer?.socketId,
           drawn: true,
         });
+        return;
       }
 
-      game.players.forEach(player => {
-        io.to(player.socketId).emit('updateHand', {
-          hand: player.hand,
-          playerCount: game.players.map(p => ({
-            nickname: p.nickname,
-            handCount: p.hand.length,
-          })),
-        });
+      socket.emit('cardDrawn', {
+        drawnCard: result.drawnCard,
+        canPlay: result.canPlay,
       });
-    } catch (err) {
-      socket.emit('error', { message: 'Kart çekilemedi' });
-    }
-  });
 
       if (!result.canPlay) {
         io.to(roomCode).emit('cardPlayed', {

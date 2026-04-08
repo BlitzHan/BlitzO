@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import Card from '../components/Card';
@@ -33,6 +33,7 @@ function Game() {
 
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [showTurnPopup, setShowTurnPopup] = useState(false);
 
   const sortedHand = useMemo(() => {
     const colorOrder = { red: 0, blue: 1, green: 2, yellow: 3, wild: 4 };

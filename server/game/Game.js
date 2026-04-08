@@ -240,6 +240,16 @@ class Game {
       return { error: 'Sıra sizde değil' };
     }
 
+    if (this.hasDrawnThisTurn) {
+      this.currentPlayerIndex = this.getNextPlayerIndex();
+      this.hasDrawnThisTurn = false;
+      return { 
+        passed: true, 
+        currentPlayer: this.getCurrentPlayer(), 
+        direction: this.direction 
+      };
+    }
+
     const drawnCards = this.deck.draw(1);
     if (drawnCards.length === 0) {
       return { error: 'Deste boş' };
@@ -248,11 +258,13 @@ class Game {
     const drawnCard = drawnCards[0];
     currentPlayer.hand.push(drawnCard);
     this.lastActivity = Date.now();
+    this.hasDrawnThisTurn = true;
 
     const canPlay = this.canPlayCard(drawnCard);
 
     if (!canPlay) {
       this.currentPlayerIndex = this.getNextPlayerIndex();
+      this.hasDrawnThisTurn = false;
       return {
         drawnCard,
         canPlay: false,
