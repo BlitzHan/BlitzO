@@ -268,15 +268,3 @@ function Game() {
 }
 
 export default Game;
-">UNO!</div>
-        )}
-      </div>
-
-      {showColorPicker && (
-        <ColorPicker onColorPick={handleColorPick} />
-      )}
-    </div>
-  );
-}
-
-export default Game;
