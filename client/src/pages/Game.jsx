@@ -126,7 +126,7 @@ function Game() {
       <div className="game-header">
         <div className="header-left">
           <span className="blitzo-title" style={{ fontSize: '20px', cursor: 'pointer' }} onClick={() => navigate('/')}>
-            ⚡ BlitzO! <span style={{fontSize: '10px', opacity: 0.7, background: 'rgba(255,215,0,0.2)', padding: '2px 4px', borderRadius: '4px'}}>v1.1</span>
+            ⚡ BlitzO! <span style={{fontSize: '10px', opacity: 0.7, background: 'rgba(255,215,0,0.2)', padding: '2px 4px', borderRadius: '4px'}}>v1.2</span>
           </span>
           <span className="round-badge">El {round}</span>
         </div>
@@ -158,7 +158,7 @@ function Game() {
 
       {showTurnPopup && (
         <div className="turn-popup">
-          <h2>SIRA SENDE!</h2>
+          <h2>{isMyTurn ? 'SIRA SENDE!' : `SIRA: ${currentTurnPlayerName.toUpperCase()}`}</h2>
         </div>
       )}
 
