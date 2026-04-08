@@ -1,6 +1,6 @@
 # ⚡ BlitzO!
 
-> Gerçek zamanlı, çok oyunculu online kart oyunu.
+> Gerçek zamanlı, çok oyunculu online kart oyunu. (Güncel Sürüm: **v1.2**)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
@@ -15,9 +15,10 @@
 - **2-10 Oyuncu** — Geniş oyuncu desteği
 - **Gerçek Zamanlı** — Socket.io ile anlık oyun akışı
 - **Şimşek Temalı Tasarım** — Altın ve koyu tonlarda göz alıcı arayüz
+- **Gelişmiş Mobil Deneyim** — Mobilde kartların üst üste yelpaze gibi dizildiği, yatay kaydırılabilir özel iskambil dizilimi.
+- **Dinamik Sıra Bildirimleri** — Sıra sana veya rakiplere geçtiğinde ekranın ortasında beliren büyük sıra bildirimleri.
 - **Otomatik Puanlama** — Her el sonunda puanlar otomatik hesaplanır
-- **LAN Desteği** — Aynı ağda olan cihazlar kolayca bağlanabilir
-- **Responsive** — Mobil ve masaüstü uyumlu
+- **Lag ve Hata Koruması** — Çift tıklamaları ve yanlışlıkla birden fazla kart çekmeyi engelleyen gelişmiş sunucu mantığı.
 
 ---
 
@@ -67,8 +68,8 @@ Tarayıcıda **http://localhost:5173** adresini aç.
 1. **Oda Oluştur** — Bir isim ve şifre belirle
 2. **Arkadaşlarını Davet Et** — 6 haneli oda kodunu paylaş
 3. **Oyun Başlasın** — En az 2 oyuncu hazır olduğunda başlat
-4. **Kartlarını Oyna** — Renk veya sayı eşleştirerek kartlarını bitir
-5. **Puanları Topla** — Her el sonunda kalan kartların puanı kazananın hanesine yazılır
+4. **Kartlarını Oyna** — Renk veya sayı eşleştirerek kartlarını bitir. Çektiğin kartı oynayabilir veya pas geçebilirsin.
+5. **Puanları Topla** — Her el sonunda kalan kartların puanı kazananın hanesine yazılır.
 
 ---
 
@@ -80,7 +81,7 @@ BlitzO/
 │   ├── index.js              # Express + Socket.IO
 │   ├── game/
 │   │   ├── Deck.js           # 108 kartlık deste
-│   │   ├── Game.js           # Oyun motoru
+│   │   ├── Game.js           # Oyun motoru (Sıra, kural ve çekme mantığı)
 │   │   └── RoomManager.js    # Oda yönetimi
 │   └── package.json
 ├── client/
@@ -89,6 +90,7 @@ BlitzO/
 │   │   ├── components/       # Card, ColorPicker
 │   │   └── context/          # SocketContext
 │   └── package.json
+├── PROJECT_SUMMARY.md        # AI geliştiricileri için proje bağlamı ve mimari özeti
 ├── start.command             # macOS başlatıcı
 ├── DEPLOY.md                 # Deploy rehberi
 └── README.md
