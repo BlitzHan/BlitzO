@@ -30,7 +30,7 @@ function Home() {
       <div className="home-content">
         <div className="logo-section">
           <h1 className="blitzo-title">⚡ BlitzO! ⚡</h1>
-          <p className="subtitle">Online Uno Oyunu</p>
+          <p className="subtitle">Online Uno Oyunu <span style={{fontSize: '0.8em', opacity: 0.7, marginLeft: '8px', background: 'rgba(255,215,0,0.2)', padding: '2px 6px', borderRadius: '4px'}}>v1.1</span></p>
         </div>
 
         <div className="forms-container">
