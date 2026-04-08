@@ -36,14 +36,15 @@ function Game() {
   const [showTurnPopup, setShowTurnPopup] = useState(false);
 
   const isMyTurn = currentPlayerSocket === socket?.id;
+  const currentTurnPlayerName = players.find(p => p.socketId === currentPlayerSocket)?.nickname || '';
 
   useEffect(() => {
-    if (isMyTurn && gameStatus === 'playing') {
+    if (gameStatus === 'playing' && currentPlayerSocket) {
       setShowTurnPopup(true);
       const t = setTimeout(() => setShowTurnPopup(false), 1500);
       return () => clearTimeout(t);
     }
-  }, [isMyTurn, gameStatus]);
+  }, [currentPlayerSocket, gameStatus]);
 
   const sortedHand = useMemo(() => {
     const colorOrder = { red: 0, blue: 1, green: 2, yellow: 3, wild: 4 };
