@@ -51,7 +51,6 @@ function Game() {
     });
   }, [myHand]);
 
-  const isMyTurn = currentPlayerSocket === socket?.id;
   const myPlayer = players.find(p => p.nickname === myNickname);
   const otherPlayers = players.filter(p => p.nickname !== myNickname);
 
@@ -204,12 +203,6 @@ function Game() {
           )}
         </div>
 
-        {pendingUnoPenalty && isMyTurn && (
-          <button className="btn-penalize-uno" onClick={penalizeUno}>
-            ⚠️ CEZA VER
-          </button>
-        )}
-
         {canPlayDrawnCard && (
           <div className="drawn-card-notice">
             Çektiğin kartı oynayabilirsin!
@@ -264,6 +257,18 @@ function Game() {
 
         {myHand.length <= 2 && (
           <div className="uno-auto-notice">UNO!</div>
+        )}
+      </div>
+
+      {showColorPicker && (
+        <ColorPicker onColorPick={handleColorPick} />
+      )}
+    </div>
+  );
+}
+
+export default Game;
+">UNO!</div>
         )}
       </div>
 
