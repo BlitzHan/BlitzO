@@ -39,7 +39,9 @@ function Game() {
     const colorOrder = { red: 0, blue: 1, green: 2, yellow: 3, wild: 4 };
     const typeOrder = { number: 0, special: 1, wild: 2 };
     return [...myHand].sort((a, b) => {
-      if (a.color !== b.color) return colorOrder[a.color] - colorOrder[b.color];
+      const colorA = a.color ? colorOrder[a.color] : 4;
+      const colorB = b.color ? colorOrder[b.color] : 4;
+      if (colorA !== colorB) return colorA - colorB;
       if (a.type !== b.type) return typeOrder[a.type] - typeOrder[b.type];
       if (a.type === 'number') return a.value - b.value;
       if (a.type === 'special') {
@@ -140,6 +142,12 @@ function Game() {
       {unoCalled && (
         <div className="uno-announcement">
           <span>UNO!</span>
+        </div>
+      )}
+
+      {showTurnPopup && (
+        <div className="turn-popup">
+          <h2>SIRA SENDE!</h2>
         </div>
       )}
 
